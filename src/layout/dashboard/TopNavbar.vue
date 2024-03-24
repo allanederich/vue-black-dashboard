@@ -140,7 +140,7 @@
               </li>
               <div class="dropdown-divider"></div>
               <li class="nav-link">
-                <a href="#" class="nav-item dropdown-item">Log out</a>
+                <a href="#" class="nav-item dropdown-item" @click="logout">Log out</a>
               </li>
             </base-dropdown>
           </ul>
@@ -152,6 +152,7 @@
 <script>
 import { CollapseTransition } from "vue2-transitions";
 import Modal from "@/components/Modal";
+import store from "@/store";
 
 export default {
   components: {
@@ -194,6 +195,11 @@ export default {
     toggleMenu() {
       this.showMenu = !this.showMenu;
     },
+    logout() {
+      console.log("logout");
+      store.dispatch("logout");
+      this.$router.push("/join");
+    }
   },
 };
 </script>

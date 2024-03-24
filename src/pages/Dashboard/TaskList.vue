@@ -18,6 +18,8 @@
 </template>
 <script>
 import { BaseTable } from "@/components";
+import store from "@/store";
+
 export default {
   components: {
     BaseTable,
@@ -26,6 +28,9 @@ export default {
     tableData() {
       return this.$t("dashboard.taskList");
     },
+  },
+  mounted() {
+    
   },
 };
 </script>

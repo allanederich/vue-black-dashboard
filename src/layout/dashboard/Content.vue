@@ -1,5 +1,5 @@
 <template>
-  <div class="content">
+  <div class="content" style="overflow-x: hidden;">
     <fade-transition :duration="100" mode="out-in">
       <!-- your content here -->
       <router-view></router-view>

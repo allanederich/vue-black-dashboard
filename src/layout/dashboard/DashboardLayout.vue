@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <side-bar>
+    <side-bar v-if="!layout">
       <template slot="links">
         <sidebar-link
           to="/dashboard"
@@ -42,15 +42,26 @@
           :name="$t('sidebar.rtlSupport')"
           icon="tim-icons icon-world"
         />
+        <sidebar-link
+          to="/join"
+          :name="$t('sidebar.join')"
+          icon="tim-icons icon-world"
+        />
       </template>
     </side-bar>
-    <div class="main-panel">
+    <div class="main-panel" v-if="!layout">
       <top-navbar></top-navbar>
 
       <dashboard-content @click.native="toggleSidebar"> </dashboard-content>
 
       <content-footer></content-footer>
     </div>
+    <dashboard-content
+      @click.native="toggleSidebar"
+      v-if="layout"
+      :layout="layout"
+    >
+    </dashboard-content>
   </div>
 </template>
 <style lang="scss"></style>
@@ -72,5 +83,10 @@ export default {
       }
     },
   },
+  data() {
+    return {
+      layout: this.$route.meta.layout
+    }
+  }
 };
 </script>

@@ -17,12 +17,22 @@ const Typography = () =>
 const TableList = () =>
   import(/* webpackChunkName: "common" */ "@/pages/TableList.vue");
 
+const AuthJoin = () => import("@/pages/Auth/Join.vue");
+
 const routes = [
   {
     path: "/",
     component: DashboardLayout,
     redirect: "/dashboard",
     children: [
+      {
+        path: "join",
+        name: "join",
+        component: AuthJoin,
+        meta: {
+          layout: 'guest',
+        },
+      },
       {
         path: "dashboard",
         name: "dashboard",

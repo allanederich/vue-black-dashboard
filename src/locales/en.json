@@ -102,7 +102,7 @@
     ]
   },
   "sidebar": {
-    "title": "Creative Tim",
+    "title": "Eagle",
     "shortTitle": "CT",
     "dashboard": "dashboard",
     "icons": "Icons",
@@ -111,6 +111,14 @@
     "userProfile": "User Profile",
     "tableList": "Table List",
     "typography": "Typography",
-    "rtlSupport": "RTL Support"
+    "rtlSupport": "RTL Support",
+    "join": "Join Page"
+  },
+  "join": {
+    "google_join": "Entrar com Google",
+    "welcome": "Seja bem-vindo!"
+  },
+  "general": {
+    "expired_session": "Sua sessão expirou. Por favor, logue novamente."
   }
 }
