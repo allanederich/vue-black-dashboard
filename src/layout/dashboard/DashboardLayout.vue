@@ -43,9 +43,9 @@
           icon="tim-icons icon-world"
         />
         <sidebar-link
-          to="/join"
-          :name="$t('sidebar.join')"
-          icon="tim-icons icon-world"
+          to="/ads-generator-list"
+          :name="$t('sidebar.adsGenerator')"
+          icon="tim-icons icon-components"
         />
       </template>
     </side-bar>

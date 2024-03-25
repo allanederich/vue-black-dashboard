@@ -112,11 +112,16 @@
     "tableList": "Table List",
     "typography": "Typography",
     "rtlSupport": "RTL Support",
-    "join": "Join Page"
+    "join": "Join Page",
+    "adsGenerator": "Gerador de Anúncios"
   },
   "join": {
     "google_join": "Entrar com Google",
     "welcome": "Seja bem-vindo!"
+  },
+  "ads_generator": {
+    "generated_ads_success": "Anúncio gerado com sucesso!",
+    "generated_ads_error": "Houve um erro ao gerar o anúncio, tente novamente."
   },
   "general": {
     "expired_session": "Sua sessão expirou. Por favor, logue novamente."

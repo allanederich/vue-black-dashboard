@@ -17,6 +17,7 @@ import RouterPrefetch from "vue-router-prefetch";
 import App from "./App";
 import router from "./router/index";
 import store from './store/index';
+import { vMaska } from "maska";
 
 import BlackDashboard from "./plugins/blackDashboard";
 import i18n from "./i18n";
@@ -24,6 +25,8 @@ import "./registerServiceWorker";
 Vue.use(BlackDashboard);
 Vue.use(VueRouter);
 Vue.use(RouterPrefetch);
+
+Vue.directive("maska", vMaska);
 
 import { initializeFirebaseApp } from './firebase';
 

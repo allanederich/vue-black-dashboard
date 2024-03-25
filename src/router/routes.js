@@ -18,6 +18,9 @@ const TableList = () =>
   import(/* webpackChunkName: "common" */ "@/pages/TableList.vue");
 
 const AuthJoin = () => import("@/pages/Auth/Join.vue");
+const AdsGeneratorList = () => import("@/pages/AdsGenerator/AdsGeneratorList.vue");
+const AdsGeneratorNew = () => import("@/pages/AdsGenerator/AdsGeneratorNew.vue");
+const AdsGeneratorEdit = () => import("@/pages/AdsGenerator/AdsGeneratorEdit.vue");
 
 const routes = [
   {
@@ -67,6 +70,21 @@ const routes = [
         path: "table-list",
         name: "table-list",
         component: TableList,
+      },
+      {
+        path: "ads-generator-list",
+        name: "Gerador de Anúncios",
+        component: AdsGeneratorList,
+      },
+      {
+        path: "ads-generator-new",
+        name: "Gerador de Anúncios",
+        component: AdsGeneratorNew,
+      },
+      {
+        path: "ads-generator-edit",
+        name: "Gerador de Anúncios",
+        component: AdsGeneratorEdit,
       },
     ],
   },

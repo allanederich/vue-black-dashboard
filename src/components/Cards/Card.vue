@@ -12,6 +12,11 @@
         <h4 class="card-title">{{ title }}</h4>
         <p class="card-category" v-if="subTitle">{{ subTitle }}</p>
       </slot>
+      <div style="width: 100%; text-align: right;" v-if="buttonAddLabel">
+        <button class="btn right" @click="buttonAddClick">
+          {{ buttonAddLabel }}
+        </button>
+      </div>
     </div>
     <div class="card-body" v-if="$slots.default">
       <slot></slot>
@@ -36,6 +41,13 @@ export default {
     subTitle: {
       type: String,
       description: "Card subtitle",
+    },
+    buttonAddLabel: {
+      type: String,
+      description: "Button Add Label",
+    },
+    buttonAddClick: {
+      type: Function
     },
     type: {
       type: String,
