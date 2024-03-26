@@ -5,12 +5,18 @@
     import moment from 'moment';
     import Helper from "@/plugins/Helper";
 
+    // Import component
+    import Loading from 'vue-loading-overlay';
+    // Import stylesheet
+    import 'vue-loading-overlay/dist/vue-loading.css';
+
     import Vue from 'vue';
     Vue.use(Helper);
 
     export default {
         components: {
             BaseTable,
+            Loading
         },
         data() {
             return {
@@ -18,16 +24,18 @@
                     data: [],
                 },
                 helper: Helper,
+                isLoading: true,
             };
         },
-        mounted() {
-            this.getProducts();
+        async mounted() {
+            await this.getGeneratedAds();
+            this.isLoading = false;
         },
         methods: {
             openProduct(id) {
                 this.$router.push("/ads-generator-edit/" + id);
             },
-            async getProducts()  {
+            async getGeneratedAds()  {
                 this.table.data = await generatedAdsService.getAll();
             },
             formatDate(date) {
@@ -44,6 +52,7 @@
 
 <template>
     <div class="row">
+        <loading :active.sync="isLoading" :is-full-page="true" :loader="'bars'" :color="'#AA439D'" :background-color="'#000'" :opacity="0.8"></loading>
       <div class="col-12">
         <card :buttonAddLabel="'Gerar Anúncio'" :buttonAddClick="newAds">
             <h5 slot="header" class="title">Anúncios Gerados</h5>

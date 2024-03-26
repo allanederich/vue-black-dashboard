@@ -47,6 +47,7 @@
                     this.$router.push("/ads-generator-edit/" + object.id);
                 }
                 catch (e) {
+                    this.isLoading = false;
                     this.$notify({
                         message: this.$t('ads_generator.generated_ads_error'),
                         icon: 'tim-icons icon-bell-55',
@@ -63,7 +64,7 @@
 <template>
     <card>
         <loading :active.sync="isLoading" :is-full-page="true" :loader="'bars'" :color="'#AA439D'" :background-color="'#000'" :opacity="0.8"></loading>
-        
+
         <h5 slot="header" class="title">Dados do Produto</h5>
         <form v-on:submit.prevent="save">
             <div class="row">

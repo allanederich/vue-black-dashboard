@@ -80,6 +80,7 @@
             this.isLoading = false;
         }
         catch (e) {
+            this.isLoading = false;
             this.$notify({
                 message: this.$t('ads_generator.generated_ads_error'),
                 icon: 'tim-icons icon-bell-55',

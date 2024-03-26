@@ -196,7 +196,6 @@ export default {
       this.showMenu = !this.showMenu;
     },
     logout() {
-      console.log("logout");
       store.dispatch("logout");
       this.$router.push("/join");
     }
