@@ -82,7 +82,7 @@ const routes = [
         component: AdsGeneratorNew,
       },
       {
-        path: "ads-generator-edit",
+        path: "ads-generator-edit/:id",
         name: "Gerador de Anúncios",
         component: AdsGeneratorEdit,
       },

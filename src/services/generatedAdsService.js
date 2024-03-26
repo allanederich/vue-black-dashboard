@@ -1,5 +1,5 @@
 import { db } from '@/firebase';
-import { collection, getDocs, getDoc, doc, addDoc } from 'firebase/firestore';
+import { collection, getDocs, getDoc, doc, addDoc, updateDoc } from 'firebase/firestore';
 import moment from 'moment';
 
 export default {
@@ -32,28 +32,72 @@ export default {
         value.status_id = object.status.id;
         value.status_name = object.status.name;
         value.creation_date = moment().format('YYYY-MM-DD HH:mm:ss');
-        await addDoc(this.refGeneratedAds(), value);
+        
+        value.product_bottle_biggest_anchoring_price = parseFloat(object.product_bottle_biggest_anchoring_price.replace('$', ''));
+        value.product_bottle_biggest_price = parseFloat(object.product_bottle_biggest_price.replace('$', ''));
+        value.product_bottle_biggest_price_quantity = parseFloat(object.product_bottle_biggest_price_quantity.replace('$', ''));
+        value.product_bottle_biggest_total_price = parseFloat(object.product_bottle_biggest_total_price.replace('$', ''));
+        value.product_bottle_lowest_price = parseFloat(object.product_bottle_lowest_price.replace('$', ''));
+        value.product_bottle_lowest_price_quantity = parseFloat(object.product_bottle_lowest_price_quantity.replace('$', ''));
+        value.product_bottle_middle_price = parseFloat(object.product_bottle_middle_price.replace('$', ''));
+        value.product_bottle_middle_price_quantity = parseFloat(object.product_bottle_middle_price_quantity.replace('$', ''));
+        value.product_comission = parseFloat(object.product_comission.replace('$', ''));
+        value.product_guarantee = parseFloat(object.product_guarantee.replace('$', ''));
+
+        return await addDoc(this.refGeneratedAds(), value);
     } catch (error) {
         console.log('error', error);
       throw new Error('Não foi possívei criar o objeto!');
     }
   },
 
-//   async get(id) {
-//     try {
-//         const snapshot = await this.ref().doc(id).get();
-//         if (snapshot.empty) {
-//             return null;
-//         } else {
-//             return snapshot.docs.map((e) => ({
-//                 id: e.id,
-//                 ...e.data(),
-//             }));
-//         }
-//     } catch (error) {
-//       throw new Error('Objeto não encontrado!');
-//     }
-//   },
+  async get(id) {
+    try {
+        const docRef = doc(db, "google_ads_generated_ads", id);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.empty) {
+            return null;
+        } else {
+            var returnObject = docSnap.data();
+            returnObject.id = docSnap.id;
+            return returnObject;
+        }
+    } catch (error) {
+      throw new Error('Objeto não encontrado!');
+    }
+  },
+
+  async update(object) {
+    if (!object.id) {
+      throw new Error('Objeto não possui identificador para atualização!');
+    }
+
+    try {
+      var value = object;
+      value.platform_id = object.platform.id;
+      value.platform_name = object.platform.name;
+      value.status_id = object.status.id;
+      value.status_name = object.status.name;
+      value.creation_date = moment().format('YYYY-MM-DD HH:mm:ss');
+      
+      value.product_bottle_biggest_anchoring_price = parseFloat(object.product_bottle_biggest_anchoring_price.replace('$', ''));
+      value.product_bottle_biggest_price = parseFloat(object.product_bottle_biggest_price.replace('$', ''));
+      value.product_bottle_biggest_price_quantity = parseFloat(object.product_bottle_biggest_price_quantity.replace('$', ''));
+      value.product_bottle_biggest_total_price = parseFloat(object.product_bottle_biggest_total_price.replace('$', ''));
+      value.product_bottle_lowest_price = parseFloat(object.product_bottle_lowest_price.replace('$', ''));
+      value.product_bottle_lowest_price_quantity = parseFloat(object.product_bottle_lowest_price_quantity.replace('$', ''));
+      value.product_bottle_middle_price = parseFloat(object.product_bottle_middle_price.replace('$', ''));
+      value.product_bottle_middle_price_quantity = parseFloat(object.product_bottle_middle_price_quantity.replace('$', ''));
+      value.product_comission = parseFloat(object.product_comission.replace('$', ''));
+      value.product_guarantee = parseFloat(object.product_guarantee.replace('$', ''));
+
+      const docRef = doc(db, "google_ads_generated_ads", object.id);
+      await updateDoc(docRef, value);
+    }
+    catch (e) {
+      throw e;
+    }
+  }
 
 //   async update(object) {
 //     if (!object.id) {

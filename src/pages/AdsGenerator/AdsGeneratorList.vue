@@ -24,8 +24,8 @@
             this.getProducts();
         },
         methods: {
-            openProduct() {
-                this.$router.push("/ads-generator-edit");
+            openProduct(id) {
+                this.$router.push("/ads-generator-edit/" + id);
             },
             async getProducts()  {
                 this.table.data = await generatedAdsService.getAll();
@@ -67,7 +67,7 @@
                         <td>{{ item.product_comission | toCurrency }}</td>
                         <td>{{ item.status_name }}</td>
                         <td class="text-center">
-                            <button class="btn btn-sm custom-button-text-with-icon" @click="openProduct">
+                            <button class="btn btn-sm custom-button-text-with-icon" @click="openProduct(item.id)">
                                 <i class="tim-icons icon-tap-02"></i><br>
                                 Abrir
                             </button>

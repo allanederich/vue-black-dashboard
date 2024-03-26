@@ -6,6 +6,9 @@ export default {
     refStatusAds() {
         return collection(db, 'google_ads_model_status');
     },
+    refTitleAds() {
+      return collection(db, 'google_ads_model_titles');
+    },
 
     async getStatusAll() {
         try {
@@ -22,5 +25,21 @@ export default {
           } catch (error) {
             console.error('get all error', error);
         }
+    },
+    async getTitlesAll() {
+      try {
+          const snapshot = await getDocs(this.refTitleAds());
+          if (snapshot.empty) {
+            return [];
+          } else {
+            var objects = snapshot.docs.map((e) => ({
+              id: e.id,
+              ...e.data(),
+            }));
+          }
+          return objects;
+        } catch (error) {
+          console.error('get all error', error);
+      }
     },
 }

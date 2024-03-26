@@ -3,12 +3,21 @@
     import generatedAdsService from "@/services/generatedAdsService";
     import googleAdsModelsService from "@/services/googleAdsModelsService";
 
+    // Import component
+    import Loading from 'vue-loading-overlay';
+    // Import stylesheet
+    import 'vue-loading-overlay/dist/vue-loading.css';
+
     export default {
+        components: {
+            Loading
+        },
         data() {
             return {
                 model: {},
                 platforms: [],
-                statusAds: []
+                statusAds: [],
+                isLoading: false,
             };
         },
         mounted() {
@@ -23,8 +32,9 @@
                 this.statusAds = await googleAdsModelsService.getStatusAll();
             },
             async save() {
+                this.isLoading = true;
                 try {
-                    await generatedAdsService.new(this.model);
+                    const object = await generatedAdsService.new(this.model);
                     this.$notify({
                         message: this.$t('ads_generator.generated_ads_success'),
                         icon: 'tim-icons icon-bell-55',
@@ -33,7 +43,8 @@
                         type: 'success',
                         timeout: 3000,
                     });
-                    this.$router.push("/ads-generator-list");
+                    this.isLoading = false;
+                    this.$router.push("/ads-generator-edit/" + object.id);
                 }
                 catch (e) {
                     this.$notify({
@@ -51,6 +62,8 @@
 </script>
 <template>
     <card>
+        <loading :active.sync="isLoading" :is-full-page="true" :loader="'bars'" :color="'#AA439D'" :background-color="'#000'" :opacity="0.8"></loading>
+        
         <h5 slot="header" class="title">Dados do Produto</h5>
         <form v-on:submit.prevent="save">
             <div class="row">

@@ -2,12 +2,12 @@
   <div class="wrapper">
     <side-bar v-if="!layout">
       <template slot="links">
-        <sidebar-link
+        <!-- <sidebar-link
           to="/dashboard"
           :name="$t('sidebar.dashboard')"
           icon="tim-icons icon-chart-pie-36"
-        />
-        <sidebar-link
+        /> -->
+        <!-- <sidebar-link
           to="/icons"
           :name="$t('sidebar.icons')"
           icon="tim-icons icon-atom"
@@ -41,7 +41,7 @@
           to="/dashboard?enableRTL=true"
           :name="$t('sidebar.rtlSupport')"
           icon="tim-icons icon-world"
-        />
+        /> -->
         <sidebar-link
           to="/ads-generator-list"
           :name="$t('sidebar.adsGenerator')"
