@@ -62,19 +62,15 @@
       async getTitlesAds() {
         this.titlesAds = await googleAdsModelsService.getTitlesAll();
       },
-      async save() {
+      async save () {
+        this.regenerateAds();
+      },
+      async regenerateAds() {
         try {
             this.isLoading = true;
             this.titlesAds = [];
             await generatedAdsService.update(this.model);
-            this.$notify({
-                message: this.$t('ads_generator.regenerated_ads_success'),
-                icon: 'tim-icons icon-bell-55',
-                horizontalAlign: 'center',
-                verticalAlign: 'top',
-                type: 'success',
-                timeout: 3000,
-            });
+            this.model = {};
             await this.getTitlesAds();
             await this.getModel();
             this.isLoading = false;
@@ -124,7 +120,7 @@
         <card>
             <h5 slot="header" class="title">Dados do Produto</h5>
 
-            <form v-on:submit.prevent="save">
+            <form v-on:submit.prevent="regenerateAds">
                     <div class="row">
                         <div class="col-sm-12 col-md-3">
                             <div class="form-group">
@@ -285,6 +281,9 @@
                         <div class="col-md-12 text-right">
                             <button class="btn" type="submit">
                                 Regerar Anúncio
+                            </button>
+                            <button class="btn" type="button" @click="save">
+                                Salvar
                             </button>
                         </div>
                     </div>
