@@ -78,9 +78,5 @@
   }
   </script>
   
-  <style>
-  .join-container {
-    /* Estilize seu botão de login conforme necessário */
-  }
-  </style>
+  <style></style>
   
