@@ -82,6 +82,9 @@
                             </button>
                         </td>
                     </tr>
+                    <tr v-if="table.data.length === 0">
+                        <td colspan="6" class="text-center">Nenhum anúncio gerado. Clique em <b>Gerar Anúncio</b> e gere seu primeiro anúncio!</td>
+                    </tr>
                 </tbody>
             </table>
           </div>

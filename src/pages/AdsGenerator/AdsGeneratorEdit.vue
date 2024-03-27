@@ -2,6 +2,7 @@
   import platformsService from "@/services/platformsService";
   import generatedAdsService from "@/services/generatedAdsService";
   import googleAdsModelsService from "@/services/googleAdsModelsService";
+  import store from '@/store/index';
 
     // Import component
     import Loading from 'vue-loading-overlay';
@@ -29,10 +30,11 @@
       },
     },
     async mounted() {
-      await this.getPlatforms();
-      await this.getStatusAds();
-      await this.getModel();
-      this.isLoading = false;
+        
+        await this.getPlatforms();
+        await this.getStatusAds();
+        await this.getModel();
+        this.isLoading = false;
     },
     data() {
       return {
@@ -54,8 +56,8 @@
         await this.getTitlesAds();
         await this.getDescriptionsAds();
         await this.getSitelinksAds();
-        // await this.getStructuredSnippetAds();
-        // await this.getCalloutPhrasesAds();
+        await this.getStructuredSnippetAds();
+        await this.getCalloutPhrasesAds();
         this.model = this.modelTmp;
       },
       async getPlatforms() {
@@ -148,19 +150,20 @@
         
         var adsModelStrucutedSnippetAds = await googleAdsModelsService.getStructuredSnippetAll();
         for (let i = 0; i < adsModelStrucutedSnippetAds.length; i++) {
-            adsModelStrucutedSnippetAds[i].value = adsModelStrucutedSnippetAds[i].value.replace('{product_name}', this.modelTmp.product_name);
-            adsModelStrucutedSnippetAds[i].value = adsModelStrucutedSnippetAds[i].value.replace('{product_lowest_price}', this.modelTmp.product_bottle_lowest_price);
-            
-            var saveUpToValue = parseFloat(this.modelTmp.product_bottle_biggest_anchoring_price - this.modelTmp.product_bottle_biggest_total_price).toFixed(0);
-            saveUpToValue = '$' + saveUpToValue;
+            adsModelStrucutedSnippetAds[i].value = adsModelStrucutedSnippetAds[i].value.replace('{product_bottle_lowest_price_quantity}', this.modelTmp.product_bottle_lowest_price_quantity);
+            adsModelStrucutedSnippetAds[i].value = adsModelStrucutedSnippetAds[i].value.replace('{product_bottle_middle_price_quantity}', this.modelTmp.product_bottle_middle_price_quantity);
+            adsModelStrucutedSnippetAds[i].value = adsModelStrucutedSnippetAds[i].value.replace('{product_bottle_biggest_price_quantity}', this.modelTmp.product_bottle_biggest_price_quantity);
 
-            var saveUpToPercent = parseFloat(100 - (this.modelTmp.product_bottle_biggest_total_price * 100) / this.modelTmp.product_bottle_biggest_anchoring_price).toFixed(0);
-            saveUpToPercent = saveUpToPercent + '%';
+            var lowestPrice = parseFloat(this.modelTmp.product_bottle_lowest_price).toFixed(0);
+            lowestPrice = '$' + lowestPrice;
+            var middlePrice = parseFloat(this.modelTmp.product_bottle_middle_price).toFixed(0);
+            middlePrice = '$' + middlePrice;
+            var biggestPrice = parseFloat(this.modelTmp.product_bottle_biggest_price).toFixed(0);
+            biggestPrice = '$' + biggestPrice;
 
-            adsModelStrucutedSnippetAds[i].value = adsModelStrucutedSnippetAds[i].value.replace('{save_up_to_value}', saveUpToValue);
-            adsModelStrucutedSnippetAds[i].value = adsModelStrucutedSnippetAds[i].value.replace('{save_up_to_percent}', saveUpToPercent);
-
-            adsModelStrucutedSnippetAds[i].value = adsModelStrucutedSnippetAds[i].value.replace('{product_guarantee}', this.modelTmp.product_guarantee);
+            adsModelStrucutedSnippetAds[i].value = adsModelStrucutedSnippetAds[i].value.replace('{product_bottle_lowest_price}', lowestPrice);
+            adsModelStrucutedSnippetAds[i].value = adsModelStrucutedSnippetAds[i].value.replace('{product_bottle_middle_price}', lowestPrice);
+            adsModelStrucutedSnippetAds[i].value = adsModelStrucutedSnippetAds[i].value.replace('{product_bottle_biggest_price}', biggestPrice);
 
             adsModelStrucutedSnippetAds[i].countWords = adsModelStrucutedSnippetAds[i].value.length;
         }
@@ -554,7 +557,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <vsa-list>
-                        <vsa-item>
+                        <vsa-item v-if="sitelinksAds.length > 0">
                             <vsa-heading>
                                 Sitelinks <i class="tim-icons icon-tap-02"></i>
                             </vsa-heading>
@@ -657,6 +660,92 @@
                                             <td class="custom-table-td"></td>
                                             <td class="custom-table-td" style="text-align: center;">
                                                 <button class="btn btn-sm" @click="copyToClipboard(`url_` + sitelink.id)">
+                                                    <i class="tim-icons icon-single-copy-04"></i>
+                                                    Copiar
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </vsa-content>
+                        </vsa-item>
+                        <vsa-item v-if="structuredSnippetAds.length > 0">
+                            <vsa-heading>
+                                Snippets Estruturados <i class="tim-icons icon-tap-02"></i>
+                            </vsa-heading>
+
+                            <vsa-content>
+                                <table class="table tablesorter">
+                                    <thead class="text-primary">
+                                        <tr>
+                                            <th width="70%">Texto</th>
+                                            <th>Tamanho</th>
+                                            <th style="text-align: center;"></th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        <tr v-for="snippet in structuredSnippetAds" :key="snippet.id">
+                                            <td width="70%" class="custom-table-td">
+                                                <base-input
+                                                    :id="snippet.id"
+                                                    v-model="snippet.value"
+                                                    class="custom-titles"
+                                                    required
+                                                    disabled
+                                                >
+                                                </base-input>
+                                            </td>
+                                            <td class="custom-table-td">
+                                                {{ snippet.countWords }} / 25
+                                                <i v-if="snippet.countWords <= 25" class="tim-icons icon-check-2" style="color: #02FF02;"></i>
+                                                <i v-if="snippet.countWords > 25" class="tim-icons icon-simple-remove" style="color: red;"></i>
+                                            </td>
+                                            <td class="custom-table-td" style="text-align: center;">
+                                                <button class="btn btn-sm" @click="copyToClipboard(snippet.id)">
+                                                    <i class="tim-icons icon-single-copy-04"></i>
+                                                    Copiar
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </vsa-content>
+                        </vsa-item>
+                        <vsa-item v-if="calloutPhrasesAds.length > 0">
+                            <vsa-heading>
+                                Frases de Destaque <i class="tim-icons icon-tap-02"></i>
+                            </vsa-heading>
+
+                            <vsa-content>
+                                <table class="table tablesorter">
+                                    <thead class="text-primary">
+                                        <tr>
+                                            <th width="70%">Texto</th>
+                                            <th>Tamanho</th>
+                                            <th style="text-align: center;"></th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        <tr v-for="callout in calloutPhrasesAds" :key="callout.id">
+                                            <td width="70%" class="custom-table-td">
+                                                <base-input
+                                                    :id="callout.id"
+                                                    v-model="callout.value"
+                                                    class="custom-titles"
+                                                    required
+                                                    disabled
+                                                >
+                                                </base-input>
+                                            </td>
+                                            <td class="custom-table-td">
+                                                {{ callout.countWords }} / 25
+                                                <i v-if="callout.countWords <= 25" class="tim-icons icon-check-2" style="color: #02FF02;"></i>
+                                                <i v-if="callout.countWords > 25" class="tim-icons icon-simple-remove" style="color: red;"></i>
+                                            </td>
+                                            <td class="custom-table-td" style="text-align: center;">
+                                                <button class="btn btn-sm" @click="copyToClipboard(callout.id)">
                                                     <i class="tim-icons icon-single-copy-04"></i>
                                                     Copiar
                                                 </button>

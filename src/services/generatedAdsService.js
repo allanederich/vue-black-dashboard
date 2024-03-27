@@ -1,6 +1,7 @@
 import { db } from '@/firebase';
-import { collection, getDocs, getDoc, doc, addDoc, updateDoc } from 'firebase/firestore';
+import { collection, getDocs, getDoc, doc, addDoc, updateDoc, query, where } from 'firebase/firestore';
 import moment from 'moment';
+import store from '@/store/index';
 
 export default {
   refGeneratedAds() {
@@ -9,7 +10,9 @@ export default {
 
   async getAll() {
     try {
-      const snapshot = await getDocs(this.refGeneratedAds());
+      const uid = store.getters.getUser.uid;
+      const q = query(this.refGeneratedAds(), where("user_id", "==", uid));
+      const snapshot = await getDocs(q);
       if (snapshot.empty) {
         return [];
       } else {
@@ -43,6 +46,8 @@ export default {
         value.product_bottle_middle_price_quantity = parseFloat(object.product_bottle_middle_price_quantity.replace('$', ''));
         value.product_comission = parseFloat(object.product_comission.replace('$', ''));
         value.product_guarantee = parseFloat(object.product_guarantee.replace('$', ''));
+
+        value.user_id = store.getters.getUser.uid;
 
         return await addDoc(this.refGeneratedAds(), value);
     } catch (error) {
