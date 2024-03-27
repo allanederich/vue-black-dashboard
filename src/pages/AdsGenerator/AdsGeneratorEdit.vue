@@ -42,7 +42,10 @@
         statusAds: [],
         titlesAds: [],
         descriptionsAds: [],
-        isLoading: true
+        isLoading: true,
+        sitelinksAds: [],
+        structuredSnippetAds: [],
+        calloutPhrasesAds: [],
       };
     },
     methods: {
@@ -50,6 +53,9 @@
         this.modelTmp = await generatedAdsService.get(this.objId);
         await this.getTitlesAds();
         await this.getDescriptionsAds();
+        await this.getSitelinksAds();
+        // await this.getStructuredSnippetAds();
+        // await this.getCalloutPhrasesAds();
         this.model = this.modelTmp;
       },
       async getPlatforms() {
@@ -101,6 +107,86 @@
             adsModelDescriptions[i].countWords = adsModelDescriptions[i].value.length;
         }
         this.descriptionsAds = adsModelDescriptions;
+      },
+      async getSitelinksAds() {
+        
+        var adsModelSitelinks = await googleAdsModelsService.getSitelinksAll();
+
+        for (let i = 0; i < adsModelSitelinks.length; i++) {
+            var saveUpToValue = parseFloat(this.modelTmp.product_bottle_biggest_anchoring_price - this.modelTmp.product_bottle_biggest_total_price).toFixed(0);
+            saveUpToValue = '$' + saveUpToValue;
+
+            var saveUpToPercent = parseFloat(100 - (this.modelTmp.product_bottle_biggest_total_price * 100) / this.modelTmp.product_bottle_biggest_anchoring_price).toFixed(0);
+            saveUpToPercent = saveUpToPercent + '%';
+
+            adsModelSitelinks[i].title = adsModelSitelinks[i].title.replace('{product_name}', this.modelTmp.product_name);
+            adsModelSitelinks[i].title = adsModelSitelinks[i].title.replace('{product_lowest_price}', this.modelTmp.product_bottle_lowest_price);
+            adsModelSitelinks[i].title = adsModelSitelinks[i].title.replace('{save_up_to_value}', saveUpToValue);
+            adsModelSitelinks[i].title = adsModelSitelinks[i].title.replace('{save_up_to_percent}', saveUpToPercent);
+            adsModelSitelinks[i].title = adsModelSitelinks[i].title.replace('{product_guarantee}', this.modelTmp.product_guarantee);
+            adsModelSitelinks[i].titleCountWords = adsModelSitelinks[i].title.length;
+
+            adsModelSitelinks[i].description_1 = adsModelSitelinks[i].description_1.replace('{product_name}', this.modelTmp.product_name);
+            adsModelSitelinks[i].description_1 = adsModelSitelinks[i].description_1.replace('{product_lowest_price}', this.modelTmp.product_bottle_lowest_price);
+            adsModelSitelinks[i].description_1 = adsModelSitelinks[i].description_1.replace('{save_up_to_value}', saveUpToValue);
+            adsModelSitelinks[i].description_1 = adsModelSitelinks[i].description_1.replace('{save_up_to_percent}', saveUpToPercent);
+            adsModelSitelinks[i].description_1 = adsModelSitelinks[i].description_1.replace('{product_guarantee}', this.modelTmp.product_guarantee);
+            adsModelSitelinks[i].description1CountWords = adsModelSitelinks[i].description_1.length;
+
+            adsModelSitelinks[i].description_2 = adsModelSitelinks[i].description_2.replace('{product_name}', this.modelTmp.product_name);
+            adsModelSitelinks[i].description_2 = adsModelSitelinks[i].description_2.replace('{product_lowest_price}', this.modelTmp.product_bottle_lowest_price);
+            adsModelSitelinks[i].description_2 = adsModelSitelinks[i].description_2.replace('{save_up_to_value}', saveUpToValue);
+            adsModelSitelinks[i].description_2 = adsModelSitelinks[i].description_2.replace('{save_up_to_percent}', saveUpToPercent);
+            adsModelSitelinks[i].description_2 = adsModelSitelinks[i].description_2.replace('{product_guarantee}', this.modelTmp.product_guarantee);
+            adsModelSitelinks[i].description2CountWords = adsModelSitelinks[i].description_2.length;
+
+            adsModelSitelinks[i].link = adsModelSitelinks[i].link.replace('{product_link}', this.modelTmp.url);
+        }
+        this.sitelinksAds = adsModelSitelinks;
+      },
+      async getStructuredSnippetAds() {
+        
+        var adsModelStrucutedSnippetAds = await googleAdsModelsService.getStructuredSnippetAll();
+        for (let i = 0; i < adsModelStrucutedSnippetAds.length; i++) {
+            adsModelStrucutedSnippetAds[i].value = adsModelStrucutedSnippetAds[i].value.replace('{product_name}', this.modelTmp.product_name);
+            adsModelStrucutedSnippetAds[i].value = adsModelStrucutedSnippetAds[i].value.replace('{product_lowest_price}', this.modelTmp.product_bottle_lowest_price);
+            
+            var saveUpToValue = parseFloat(this.modelTmp.product_bottle_biggest_anchoring_price - this.modelTmp.product_bottle_biggest_total_price).toFixed(0);
+            saveUpToValue = '$' + saveUpToValue;
+
+            var saveUpToPercent = parseFloat(100 - (this.modelTmp.product_bottle_biggest_total_price * 100) / this.modelTmp.product_bottle_biggest_anchoring_price).toFixed(0);
+            saveUpToPercent = saveUpToPercent + '%';
+
+            adsModelStrucutedSnippetAds[i].value = adsModelStrucutedSnippetAds[i].value.replace('{save_up_to_value}', saveUpToValue);
+            adsModelStrucutedSnippetAds[i].value = adsModelStrucutedSnippetAds[i].value.replace('{save_up_to_percent}', saveUpToPercent);
+
+            adsModelStrucutedSnippetAds[i].value = adsModelStrucutedSnippetAds[i].value.replace('{product_guarantee}', this.modelTmp.product_guarantee);
+
+            adsModelStrucutedSnippetAds[i].countWords = adsModelStrucutedSnippetAds[i].value.length;
+        }
+        this.structuredSnippetAds = adsModelStrucutedSnippetAds;
+      },
+      async getCalloutPhrasesAds() {
+        
+        var adsModelCalloutPhrases = await googleAdsModelsService.getCalloutPhrasesAll();
+        for (let i = 0; i < adsModelCalloutPhrases.length; i++) {
+            adsModelCalloutPhrases[i].value = adsModelCalloutPhrases[i].value.replace('{product_name}', this.modelTmp.product_name);
+            adsModelCalloutPhrases[i].value = adsModelCalloutPhrases[i].value.replace('{product_lowest_price}', this.modelTmp.product_bottle_lowest_price);
+            
+            var saveUpToValue = parseFloat(this.modelTmp.product_bottle_biggest_anchoring_price - this.modelTmp.product_bottle_biggest_total_price).toFixed(0);
+            saveUpToValue = '$' + saveUpToValue;
+
+            var saveUpToPercent = parseFloat(100 - (this.modelTmp.product_bottle_biggest_total_price * 100) / this.modelTmp.product_bottle_biggest_anchoring_price).toFixed(0);
+            saveUpToPercent = saveUpToPercent + '%';
+
+            adsModelCalloutPhrases[i].value = adsModelCalloutPhrases[i].value.replace('{save_up_to_value}', saveUpToValue);
+            adsModelCalloutPhrases[i].value = adsModelCalloutPhrases[i].value.replace('{save_up_to_percent}', saveUpToPercent);
+
+            adsModelCalloutPhrases[i].value = adsModelCalloutPhrases[i].value.replace('{product_guarantee}', this.modelTmp.product_guarantee);
+
+            adsModelCalloutPhrases[i].countWords = adsModelCalloutPhrases[i].value.length;
+        }
+        this.calloutPhrasesAds = adsModelCalloutPhrases;
       },
       async save () {
         this.regenerateAds();
@@ -183,6 +269,10 @@
             padding: 11px 40px;
             font-size: 0.875rem;
             line-height: 1.35em;
+        }
+        .custom-table-td {
+            vertical-align: middle !important;
+            border: 0 !important;
         }
     </style>  
 
@@ -454,6 +544,129 @@
                             </vsa-content>
                         </vsa-item>
                     </vsa-list>
+                </div>
+            </div>
+        </card>
+
+        <card v-if="sitelinksAds.length > 0 || structuredSnippetAds.length > 0 || calloutPhrasesAds.length > 0">
+            <h5 slot="header" class="title">Recursos/Extensões</h5>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <vsa-list>
+                        <vsa-item>
+                            <vsa-heading>
+                                Sitelinks <i class="tim-icons icon-tap-02"></i>
+                            </vsa-heading>
+
+                            <vsa-content>
+                                <table class="table tablesorter" v-for="(sitelink, index) in sitelinksAds" :key="sitelink.id">
+                                    <thead class="text-primary">
+                                        <tr>
+                                            <th width="70%">Sitelink {{ ( index + 1) }}</th>
+                                            <th>Tamanho</th>
+                                            <th style="text-align: center;"></th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        <tr>
+                                            <td width="70%" class="custom-table-td">
+                                                <base-input
+                                                    :id="`titulo_` + sitelink.id"
+                                                    label="Título do Sitelink"
+                                                    v-model="sitelink.title"
+                                                    class="custom-titles"
+                                                    required
+                                                    disabled
+                                                >
+                                                </base-input>
+                                            </td>
+                                            <td class="custom-table-td">
+                                                {{ sitelink.titleCountWords }} / 25
+                                                <i v-if="sitelink.titleCountWords <= 25" class="tim-icons icon-check-2" style="color: #02FF02;"></i>
+                                                <i v-if="sitelink.titleCountWords > 25" class="tim-icons icon-simple-remove" style="color: red;"></i>
+                                            </td>
+                                            <td class="custom-table-td" style="text-align: center;">
+                                                <button class="btn btn-sm" @click="copyToClipboard(`titulo_` + sitelink.id)">
+                                                    <i class="tim-icons icon-single-copy-04"></i>
+                                                    Copiar
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td width="70%" class="custom-table-td">
+                                                <base-input
+                                                    :id="`description1_` + sitelink.id"
+                                                    label="Descrição 1"
+                                                    v-model="sitelink.description_1"
+                                                    class="custom-titles"
+                                                    required
+                                                    disabled
+                                                >
+                                                </base-input>
+                                            </td>
+                                            <td class="custom-table-td">
+                                                {{ sitelink.description1CountWords }} / 35
+                                                <i v-if="sitelink.description1CountWords <= 35" class="tim-icons icon-check-2" style="color: #02FF02;"></i>
+                                                <i v-if="sitelink.description1CountWords > 35" class="tim-icons icon-simple-remove" style="color: red;"></i>
+                                            </td>
+                                            <td class="custom-table-td" style="text-align: center;">
+                                                <button class="btn btn-sm" @click="copyToClipboard(`description1_` + sitelink.id)">
+                                                    <i class="tim-icons icon-single-copy-04"></i>
+                                                    Copiar
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td width="70%" class="custom-table-td">
+                                                <base-input
+                                                    :id="`description2_` + sitelink.id"
+                                                    label="Descrição 2"
+                                                    v-model="sitelink.description_2"
+                                                    class="custom-titles"
+                                                    required
+                                                    disabled
+                                                >
+                                                </base-input>
+                                            </td>
+                                            <td class="custom-table-td">
+                                                {{ sitelink.description2CountWords }} / 35
+                                                <i v-if="sitelink.description2CountWords <= 35" class="tim-icons icon-check-2" style="color: #02FF02;"></i>
+                                                <i v-if="sitelink.description2CountWords > 35" class="tim-icons icon-simple-remove" style="color: red;"></i>
+                                            </td>
+                                            <td class="custom-table-td" style="text-align: center;">
+                                                <button class="btn btn-sm" @click="copyToClipboard(`description2_` + sitelink.id)">
+                                                    <i class="tim-icons icon-single-copy-04"></i>
+                                                    Copiar
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td width="70%" class="custom-table-td">
+                                                <base-input
+                                                    :id="`url_` + sitelink.id"
+                                                    label="URL do Sitelink"
+                                                    v-model="sitelink.link"
+                                                    class="custom-titles"
+                                                    required
+                                                    disabled
+                                                >
+                                                </base-input>
+                                            </td>
+                                            <td class="custom-table-td"></td>
+                                            <td class="custom-table-td" style="text-align: center;">
+                                                <button class="btn btn-sm" @click="copyToClipboard(`url_` + sitelink.id)">
+                                                    <i class="tim-icons icon-single-copy-04"></i>
+                                                    Copiar
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </vsa-content>
+                        </vsa-item>
+                    </vsa-list> 
                 </div>
             </div>
         </card>
