@@ -48,193 +48,205 @@
         sitelinksAds: [],
         structuredSnippetAds: [],
         calloutPhrasesAds: [],
+        contrutorUrl1: "",
+        contrutorUrl1_resultado: "",
       };
     },
     methods: {
-      async getModel() {
-        this.modelTmp = await generatedAdsService.get(this.objId);
-        await this.getTitlesAds();
-        await this.getDescriptionsAds();
-        await this.getSitelinksAds();
-        await this.getStructuredSnippetAds();
-        await this.getCalloutPhrasesAds();
-        this.model = this.modelTmp;
-      },
-      async getPlatforms() {
-        this.platforms = await platformsService.getAll();
-      },
-      async getStatusAds() {
-        this.statusAds = await googleAdsModelsService.getStatusAll();
-      },
-      async getTitlesAds() {
-        
-        var adsModelTitles = await googleAdsModelsService.getTitlesAll();
-        for (let i = 0; i < adsModelTitles.length; i++) {
-            adsModelTitles[i].value = adsModelTitles[i].value.replace('{product_name}', this.modelTmp.product_name);
-            adsModelTitles[i].value = adsModelTitles[i].value.replace('{product_lowest_price}', this.modelTmp.product_bottle_lowest_price);
-            
-            var saveUpToValue = parseFloat(this.modelTmp.product_bottle_biggest_anchoring_price - this.modelTmp.product_bottle_biggest_total_price).toFixed(0);
-            saveUpToValue = '$' + saveUpToValue;
-
-            var saveUpToPercent = parseFloat(100 - (this.modelTmp.product_bottle_biggest_total_price * 100) / this.modelTmp.product_bottle_biggest_anchoring_price).toFixed(0);
-            saveUpToPercent = saveUpToPercent + '%';
-
-            adsModelTitles[i].value = adsModelTitles[i].value.replace('{save_up_to_value}', saveUpToValue);
-            adsModelTitles[i].value = adsModelTitles[i].value.replace('{save_up_to_percent}', saveUpToPercent);
-
-            adsModelTitles[i].value = adsModelTitles[i].value.replace('{product_guarantee}', this.modelTmp.product_guarantee);
-
-            adsModelTitles[i].countWords = adsModelTitles[i].value.length;
-        }
-        this.titlesAds = adsModelTitles;
-      },
-      async getDescriptionsAds() {
-        
-        var adsModelDescriptions = await googleAdsModelsService.getDescriptionsAll();
-        for (let i = 0; i < adsModelDescriptions.length; i++) {
-            adsModelDescriptions[i].value = adsModelDescriptions[i].value.replace('{product_name}', this.modelTmp.product_name);
-            adsModelDescriptions[i].value = adsModelDescriptions[i].value.replace('{product_lowest_price}', this.modelTmp.product_bottle_lowest_price);
-            
-            var saveUpToValue = parseFloat(this.modelTmp.product_bottle_biggest_anchoring_price - this.modelTmp.product_bottle_biggest_total_price).toFixed(0);
-            saveUpToValue = '$' + saveUpToValue;
-
-            var saveUpToPercent = parseFloat(100 - (this.modelTmp.product_bottle_biggest_total_price * 100) / this.modelTmp.product_bottle_biggest_anchoring_price).toFixed(0);
-            saveUpToPercent = saveUpToPercent + '%';
-
-            adsModelDescriptions[i].value = adsModelDescriptions[i].value.replace('{save_up_to_value}', saveUpToValue);
-            adsModelDescriptions[i].value = adsModelDescriptions[i].value.replace('{save_up_to_percent}', saveUpToPercent);
-
-            adsModelDescriptions[i].value = adsModelDescriptions[i].value.replace('{product_guarantee}', this.modelTmp.product_guarantee);
-
-            adsModelDescriptions[i].countWords = adsModelDescriptions[i].value.length;
-        }
-        this.descriptionsAds = adsModelDescriptions;
-      },
-      async getSitelinksAds() {
-        
-        var adsModelSitelinks = await googleAdsModelsService.getSitelinksAll();
-
-        for (let i = 0; i < adsModelSitelinks.length; i++) {
-            var saveUpToValue = parseFloat(this.modelTmp.product_bottle_biggest_anchoring_price - this.modelTmp.product_bottle_biggest_total_price).toFixed(0);
-            saveUpToValue = '$' + saveUpToValue;
-
-            var saveUpToPercent = parseFloat(100 - (this.modelTmp.product_bottle_biggest_total_price * 100) / this.modelTmp.product_bottle_biggest_anchoring_price).toFixed(0);
-            saveUpToPercent = saveUpToPercent + '%';
-
-            adsModelSitelinks[i].title = adsModelSitelinks[i].title.replace('{product_name}', this.modelTmp.product_name);
-            adsModelSitelinks[i].title = adsModelSitelinks[i].title.replace('{product_lowest_price}', this.modelTmp.product_bottle_lowest_price);
-            adsModelSitelinks[i].title = adsModelSitelinks[i].title.replace('{save_up_to_value}', saveUpToValue);
-            adsModelSitelinks[i].title = adsModelSitelinks[i].title.replace('{save_up_to_percent}', saveUpToPercent);
-            adsModelSitelinks[i].title = adsModelSitelinks[i].title.replace('{product_guarantee}', this.modelTmp.product_guarantee);
-            adsModelSitelinks[i].titleCountWords = adsModelSitelinks[i].title.length;
-
-            adsModelSitelinks[i].description_1 = adsModelSitelinks[i].description_1.replace('{product_name}', this.modelTmp.product_name);
-            adsModelSitelinks[i].description_1 = adsModelSitelinks[i].description_1.replace('{product_lowest_price}', this.modelTmp.product_bottle_lowest_price);
-            adsModelSitelinks[i].description_1 = adsModelSitelinks[i].description_1.replace('{save_up_to_value}', saveUpToValue);
-            adsModelSitelinks[i].description_1 = adsModelSitelinks[i].description_1.replace('{save_up_to_percent}', saveUpToPercent);
-            adsModelSitelinks[i].description_1 = adsModelSitelinks[i].description_1.replace('{product_guarantee}', this.modelTmp.product_guarantee);
-            adsModelSitelinks[i].description1CountWords = adsModelSitelinks[i].description_1.length;
-
-            adsModelSitelinks[i].description_2 = adsModelSitelinks[i].description_2.replace('{product_name}', this.modelTmp.product_name);
-            adsModelSitelinks[i].description_2 = adsModelSitelinks[i].description_2.replace('{product_lowest_price}', this.modelTmp.product_bottle_lowest_price);
-            adsModelSitelinks[i].description_2 = adsModelSitelinks[i].description_2.replace('{save_up_to_value}', saveUpToValue);
-            adsModelSitelinks[i].description_2 = adsModelSitelinks[i].description_2.replace('{save_up_to_percent}', saveUpToPercent);
-            adsModelSitelinks[i].description_2 = adsModelSitelinks[i].description_2.replace('{product_guarantee}', this.modelTmp.product_guarantee);
-            adsModelSitelinks[i].description2CountWords = adsModelSitelinks[i].description_2.length;
-
-            adsModelSitelinks[i].link = adsModelSitelinks[i].link.replace('{product_link}', this.modelTmp.url);
-        }
-        this.sitelinksAds = adsModelSitelinks;
-      },
-      async getStructuredSnippetAds() {
-        
-        var adsModelStrucutedSnippetAds = await googleAdsModelsService.getStructuredSnippetAll();
-        for (let i = 0; i < adsModelStrucutedSnippetAds.length; i++) {
-            adsModelStrucutedSnippetAds[i].value = adsModelStrucutedSnippetAds[i].value.replace('{product_bottle_lowest_price_quantity}', this.modelTmp.product_bottle_lowest_price_quantity);
-            adsModelStrucutedSnippetAds[i].value = adsModelStrucutedSnippetAds[i].value.replace('{product_bottle_middle_price_quantity}', this.modelTmp.product_bottle_middle_price_quantity);
-            adsModelStrucutedSnippetAds[i].value = adsModelStrucutedSnippetAds[i].value.replace('{product_bottle_biggest_price_quantity}', this.modelTmp.product_bottle_biggest_price_quantity);
-
-            var lowestPrice = parseFloat(this.modelTmp.product_bottle_lowest_price).toFixed(0);
-            lowestPrice = '$' + lowestPrice;
-            var middlePrice = parseFloat(this.modelTmp.product_bottle_middle_price).toFixed(0);
-            middlePrice = '$' + middlePrice;
-            var biggestPrice = parseFloat(this.modelTmp.product_bottle_biggest_price).toFixed(0);
-            biggestPrice = '$' + biggestPrice;
-
-            adsModelStrucutedSnippetAds[i].value = adsModelStrucutedSnippetAds[i].value.replace('{product_bottle_lowest_price}', lowestPrice);
-            adsModelStrucutedSnippetAds[i].value = adsModelStrucutedSnippetAds[i].value.replace('{product_bottle_middle_price}', lowestPrice);
-            adsModelStrucutedSnippetAds[i].value = adsModelStrucutedSnippetAds[i].value.replace('{product_bottle_biggest_price}', biggestPrice);
-
-            adsModelStrucutedSnippetAds[i].countWords = adsModelStrucutedSnippetAds[i].value.length;
-        }
-        this.structuredSnippetAds = adsModelStrucutedSnippetAds;
-      },
-      async getCalloutPhrasesAds() {
-        
-        var adsModelCalloutPhrases = await googleAdsModelsService.getCalloutPhrasesAll();
-        for (let i = 0; i < adsModelCalloutPhrases.length; i++) {
-            adsModelCalloutPhrases[i].value = adsModelCalloutPhrases[i].value.replace('{product_name}', this.modelTmp.product_name);
-            adsModelCalloutPhrases[i].value = adsModelCalloutPhrases[i].value.replace('{product_lowest_price}', this.modelTmp.product_bottle_lowest_price);
-            
-            var saveUpToValue = parseFloat(this.modelTmp.product_bottle_biggest_anchoring_price - this.modelTmp.product_bottle_biggest_total_price).toFixed(0);
-            saveUpToValue = '$' + saveUpToValue;
-
-            var saveUpToPercent = parseFloat(100 - (this.modelTmp.product_bottle_biggest_total_price * 100) / this.modelTmp.product_bottle_biggest_anchoring_price).toFixed(0);
-            saveUpToPercent = saveUpToPercent + '%';
-
-            adsModelCalloutPhrases[i].value = adsModelCalloutPhrases[i].value.replace('{save_up_to_value}', saveUpToValue);
-            adsModelCalloutPhrases[i].value = adsModelCalloutPhrases[i].value.replace('{save_up_to_percent}', saveUpToPercent);
-
-            adsModelCalloutPhrases[i].value = adsModelCalloutPhrases[i].value.replace('{product_guarantee}', this.modelTmp.product_guarantee);
-
-            adsModelCalloutPhrases[i].countWords = adsModelCalloutPhrases[i].value.length;
-        }
-        this.calloutPhrasesAds = adsModelCalloutPhrases;
-      },
-      async save () {
-        this.regenerateAds();
-      },
-      async regenerateAds() {
-        try {
-            this.isLoading = true;
-            this.titlesAds = [];
-            await generatedAdsService.update(this.model);
-            this.model = {};
-            this.modelTmp = {};
+        async getModel() {
+            this.modelTmp = await generatedAdsService.get(this.objId);
             await this.getTitlesAds();
-            await this.getModel();
-            this.isLoading = false;
-        }
-        catch (e) {
-            this.isLoading = false;
+            await this.getDescriptionsAds();
+            await this.getSitelinksAds();
+            await this.getStructuredSnippetAds();
+            await this.getCalloutPhrasesAds();
+            this.model = this.modelTmp;
+        },
+        async getPlatforms() {
+            this.platforms = await platformsService.getAll();
+        },
+        async getStatusAds() {
+            this.statusAds = await googleAdsModelsService.getStatusAll();
+        },
+        async getTitlesAds() {
+            
+            var adsModelTitles = await googleAdsModelsService.getTitlesAll();
+            for (let i = 0; i < adsModelTitles.length; i++) {
+                adsModelTitles[i].value = adsModelTitles[i].value.replace('{product_name}', this.modelTmp.product_name);
+                adsModelTitles[i].value = adsModelTitles[i].value.replace('{product_lowest_price}', this.modelTmp.product_bottle_lowest_price);
+                
+                var saveUpToValue = parseFloat(this.modelTmp.product_bottle_biggest_anchoring_price - this.modelTmp.product_bottle_biggest_total_price).toFixed(0);
+                saveUpToValue = '$' + saveUpToValue;
+
+                var saveUpToPercent = parseFloat(100 - (this.modelTmp.product_bottle_biggest_total_price * 100) / this.modelTmp.product_bottle_biggest_anchoring_price).toFixed(0);
+                saveUpToPercent = saveUpToPercent + '%';
+
+                adsModelTitles[i].value = adsModelTitles[i].value.replace('{save_up_to_value}', saveUpToValue);
+                adsModelTitles[i].value = adsModelTitles[i].value.replace('{save_up_to_percent}', saveUpToPercent);
+
+                adsModelTitles[i].value = adsModelTitles[i].value.replace('{product_guarantee}', this.modelTmp.product_guarantee);
+
+                adsModelTitles[i].countWords = adsModelTitles[i].value.length;
+            }
+            this.titlesAds = adsModelTitles;
+        },
+        async getDescriptionsAds() {
+            
+            var adsModelDescriptions = await googleAdsModelsService.getDescriptionsAll();
+            for (let i = 0; i < adsModelDescriptions.length; i++) {
+                adsModelDescriptions[i].value = adsModelDescriptions[i].value.replace('{product_name}', this.modelTmp.product_name);
+                adsModelDescriptions[i].value = adsModelDescriptions[i].value.replace('{product_lowest_price}', this.modelTmp.product_bottle_lowest_price);
+                
+                var saveUpToValue = parseFloat(this.modelTmp.product_bottle_biggest_anchoring_price - this.modelTmp.product_bottle_biggest_total_price).toFixed(0);
+                saveUpToValue = '$' + saveUpToValue;
+
+                var saveUpToPercent = parseFloat(100 - (this.modelTmp.product_bottle_biggest_total_price * 100) / this.modelTmp.product_bottle_biggest_anchoring_price).toFixed(0);
+                saveUpToPercent = saveUpToPercent + '%';
+
+                adsModelDescriptions[i].value = adsModelDescriptions[i].value.replace('{save_up_to_value}', saveUpToValue);
+                adsModelDescriptions[i].value = adsModelDescriptions[i].value.replace('{save_up_to_percent}', saveUpToPercent);
+
+                adsModelDescriptions[i].value = adsModelDescriptions[i].value.replace('{product_guarantee}', this.modelTmp.product_guarantee);
+
+                adsModelDescriptions[i].countWords = adsModelDescriptions[i].value.length;
+            }
+            this.descriptionsAds = adsModelDescriptions;
+        },
+        async getSitelinksAds() {
+            
+            var adsModelSitelinks = await googleAdsModelsService.getSitelinksAll();
+
+            for (let i = 0; i < adsModelSitelinks.length; i++) {
+                var saveUpToValue = parseFloat(this.modelTmp.product_bottle_biggest_anchoring_price - this.modelTmp.product_bottle_biggest_total_price).toFixed(0);
+                saveUpToValue = '$' + saveUpToValue;
+
+                var saveUpToPercent = parseFloat(100 - (this.modelTmp.product_bottle_biggest_total_price * 100) / this.modelTmp.product_bottle_biggest_anchoring_price).toFixed(0);
+                saveUpToPercent = saveUpToPercent + '%';
+
+                adsModelSitelinks[i].title = adsModelSitelinks[i].title.replace('{product_name}', this.modelTmp.product_name);
+                adsModelSitelinks[i].title = adsModelSitelinks[i].title.replace('{product_lowest_price}', this.modelTmp.product_bottle_lowest_price);
+                adsModelSitelinks[i].title = adsModelSitelinks[i].title.replace('{save_up_to_value}', saveUpToValue);
+                adsModelSitelinks[i].title = adsModelSitelinks[i].title.replace('{save_up_to_percent}', saveUpToPercent);
+                adsModelSitelinks[i].title = adsModelSitelinks[i].title.replace('{product_guarantee}', this.modelTmp.product_guarantee);
+                adsModelSitelinks[i].titleCountWords = adsModelSitelinks[i].title.length;
+
+                adsModelSitelinks[i].description_1 = adsModelSitelinks[i].description_1.replace('{product_name}', this.modelTmp.product_name);
+                adsModelSitelinks[i].description_1 = adsModelSitelinks[i].description_1.replace('{product_lowest_price}', this.modelTmp.product_bottle_lowest_price);
+                adsModelSitelinks[i].description_1 = adsModelSitelinks[i].description_1.replace('{save_up_to_value}', saveUpToValue);
+                adsModelSitelinks[i].description_1 = adsModelSitelinks[i].description_1.replace('{save_up_to_percent}', saveUpToPercent);
+                adsModelSitelinks[i].description_1 = adsModelSitelinks[i].description_1.replace('{product_guarantee}', this.modelTmp.product_guarantee);
+                adsModelSitelinks[i].description1CountWords = adsModelSitelinks[i].description_1.length;
+
+                adsModelSitelinks[i].description_2 = adsModelSitelinks[i].description_2.replace('{product_name}', this.modelTmp.product_name);
+                adsModelSitelinks[i].description_2 = adsModelSitelinks[i].description_2.replace('{product_lowest_price}', this.modelTmp.product_bottle_lowest_price);
+                adsModelSitelinks[i].description_2 = adsModelSitelinks[i].description_2.replace('{save_up_to_value}', saveUpToValue);
+                adsModelSitelinks[i].description_2 = adsModelSitelinks[i].description_2.replace('{save_up_to_percent}', saveUpToPercent);
+                adsModelSitelinks[i].description_2 = adsModelSitelinks[i].description_2.replace('{product_guarantee}', this.modelTmp.product_guarantee);
+                adsModelSitelinks[i].description2CountWords = adsModelSitelinks[i].description_2.length;
+
+                adsModelSitelinks[i].link = adsModelSitelinks[i].link.replace('{product_link}', this.modelTmp.url);
+            }
+            this.sitelinksAds = adsModelSitelinks;
+        },
+        async getStructuredSnippetAds() {
+            
+            var adsModelStrucutedSnippetAds = await googleAdsModelsService.getStructuredSnippetAll();
+            for (let i = 0; i < adsModelStrucutedSnippetAds.length; i++) {
+                adsModelStrucutedSnippetAds[i].value = adsModelStrucutedSnippetAds[i].value.replace('{product_bottle_lowest_price_quantity}', this.modelTmp.product_bottle_lowest_price_quantity);
+                adsModelStrucutedSnippetAds[i].value = adsModelStrucutedSnippetAds[i].value.replace('{product_bottle_middle_price_quantity}', this.modelTmp.product_bottle_middle_price_quantity);
+                adsModelStrucutedSnippetAds[i].value = adsModelStrucutedSnippetAds[i].value.replace('{product_bottle_biggest_price_quantity}', this.modelTmp.product_bottle_biggest_price_quantity);
+
+                var lowestPrice = parseFloat(this.modelTmp.product_bottle_lowest_price).toFixed(0);
+                lowestPrice = '$' + lowestPrice;
+                var middlePrice = parseFloat(this.modelTmp.product_bottle_middle_price).toFixed(0);
+                middlePrice = '$' + middlePrice;
+                var biggestPrice = parseFloat(this.modelTmp.product_bottle_biggest_price).toFixed(0);
+                biggestPrice = '$' + biggestPrice;
+
+                adsModelStrucutedSnippetAds[i].value = adsModelStrucutedSnippetAds[i].value.replace('{product_bottle_lowest_price}', lowestPrice);
+                adsModelStrucutedSnippetAds[i].value = adsModelStrucutedSnippetAds[i].value.replace('{product_bottle_middle_price}', middlePrice);
+                adsModelStrucutedSnippetAds[i].value = adsModelStrucutedSnippetAds[i].value.replace('{product_bottle_biggest_price}', biggestPrice);
+
+                adsModelStrucutedSnippetAds[i].countWords = adsModelStrucutedSnippetAds[i].value.length;
+            }
+            this.structuredSnippetAds = adsModelStrucutedSnippetAds;
+        },
+        async getCalloutPhrasesAds() {
+            
+            var adsModelCalloutPhrases = await googleAdsModelsService.getCalloutPhrasesAll();
+            for (let i = 0; i < adsModelCalloutPhrases.length; i++) {
+                adsModelCalloutPhrases[i].value = adsModelCalloutPhrases[i].value.replace('{product_name}', this.modelTmp.product_name);
+                adsModelCalloutPhrases[i].value = adsModelCalloutPhrases[i].value.replace('{product_lowest_price}', this.modelTmp.product_bottle_lowest_price);
+                
+                var saveUpToValue = parseFloat(this.modelTmp.product_bottle_biggest_anchoring_price - this.modelTmp.product_bottle_biggest_total_price).toFixed(0);
+                saveUpToValue = '$' + saveUpToValue;
+
+                var saveUpToPercent = parseFloat(100 - (this.modelTmp.product_bottle_biggest_total_price * 100) / this.modelTmp.product_bottle_biggest_anchoring_price).toFixed(0);
+                saveUpToPercent = saveUpToPercent + '%';
+
+                adsModelCalloutPhrases[i].value = adsModelCalloutPhrases[i].value.replace('{save_up_to_value}', saveUpToValue);
+                adsModelCalloutPhrases[i].value = adsModelCalloutPhrases[i].value.replace('{save_up_to_percent}', saveUpToPercent);
+
+                adsModelCalloutPhrases[i].value = adsModelCalloutPhrases[i].value.replace('{product_guarantee}', this.modelTmp.product_guarantee);
+
+                adsModelCalloutPhrases[i].countWords = adsModelCalloutPhrases[i].value.length;
+            }
+            this.calloutPhrasesAds = adsModelCalloutPhrases;
+        },
+        async save () {
+            this.regenerateAds();
+        },
+        async regenerateAds() {
+            try {
+                this.isLoading = true;
+                this.titlesAds = [];
+                await generatedAdsService.update(this.model);
+                this.model = {};
+                this.modelTmp = {};
+                await this.getTitlesAds();
+                await this.getModel();
+                this.isLoading = false;
+            }
+            catch (e) {
+                this.isLoading = false;
+                this.$notify({
+                    message: this.$t('ads_generator.generated_ads_error'),
+                    icon: 'tim-icons icon-bell-55',
+                    horizontalAlign: 'center',
+                    verticalAlign: 'top',
+                    type: 'error',
+                    timeout: 3000,
+                });
+            }
+        },
+        copyToClipboard(id) {
+            var copyText = document.getElementById(id);
+            // Select the text field
+            copyText.select();
+            copyText.setSelectionRange(0, 99999); // For mobile devices
+
+            // Copy the text inside the text field
+            navigator.clipboard.writeText(copyText.value);
+
             this.$notify({
-                message: this.$t('ads_generator.generated_ads_error'),
+                message: this.$t('ads_generator.copy_to_clipboard_success'),
                 icon: 'tim-icons icon-bell-55',
                 horizontalAlign: 'center',
                 verticalAlign: 'top',
-                type: 'error',
+                type: 'success',
                 timeout: 3000,
             });
         }
-      },
-      copyToClipboard(id) {
-        var copyText = document.getElementById(id);
-        // Select the text field
-        copyText.select();
-        copyText.setSelectionRange(0, 99999); // For mobile devices
-
-        // Copy the text inside the text field
-        navigator.clipboard.writeText(copyText.value);
-
-        this.$notify({
-            message: this.$t('ads_generator.copy_to_clipboard_success'),
-            icon: 'tim-icons icon-bell-55',
-            horizontalAlign: 'center',
-            verticalAlign: 'top',
-            type: 'success',
-            timeout: 3000,
-        });
-      },
+    },
+    watch: {
+        contrutorUrl1: function (newValue) {
+            if ( newValue.includes('?') ) {
+                this.contrutorUrl1_resultado = newValue + '&tid={gclid}';
+            }
+            else {
+                this.contrutorUrl1_resultado = newValue + '?tid={gclid}';
+            }
+        }
     },
   };
   </script>
@@ -443,16 +455,58 @@
                         </div>
                     </div>
                     <div class="row">
+                        <div class="col-md-12">
+                            <label class="control-label">
+                                Observações
+                            </label>
+                            <textarea class="form-control" rows="5" v-model="model.obs" placeholder="Faça suas anotações aqui" style="padding: 10px 18px 10px 18px; border: 1px solid #cad1d7; border-color: #2b3553; border-radius: 0.4285rem;"></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
                         <div class="col-md-12 text-right">
-                            <button class="btn" type="submit">
-                                Regerar Anúncio
-                            </button>
                             <button class="btn" type="button" @click="save">
                                 Salvar
                             </button>
                         </div>
                     </div>
                 </form>
+        </card>
+
+        <card>
+            <h5 slot="header" class="title">Construtor de URLs</h5>
+
+            <div class="alert alert-info" role="alert">
+                <i>Este construtor de URL serve para você gerar seu link de afiliado corretamente, com o traqueamento.</i>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <base-input
+                        label="Link de afiliado"
+                        placeholder="Informe o seu link de afiliado (conforme foi gerado na plataforma do produto)"
+                        v-model="contrutorUrl1"
+                        class="custom-titles"
+                    >
+                    </base-input>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <base-input
+                        id="contrutorUrl1_resultado"
+                        v-model="contrutorUrl1_resultado"
+                        class="custom-titles"
+                        readonly
+                    >
+                    </base-input>
+                </div>
+                <div class="col-md-1">
+                    <button class="btn btn-sm" @click="copyToClipboard('contrutorUrl1_resultado')">
+                        <i class="tim-icons icon-single-copy-04"></i>
+                        Copiar
+                    </button>
+                </div>
+            </div>
         </card>
 
         <card v-if="titlesAds.length > 0">
@@ -675,6 +729,9 @@
                             </vsa-heading>
 
                             <vsa-content>
+                                <div class="alert alert-info" role="alert">
+                                    <i>Em Tipo de Cabeçalho, escolha a opção Types</i>
+                                </div>
                                 <table class="table tablesorter">
                                     <thead class="text-primary">
                                         <tr>

@@ -20,7 +20,7 @@
             <span class="navbar-toggler-bar bar3"></span>
           </button>
         </div>
-        <a class="navbar-brand" href="#pablo">{{ routeName }}</a>
+        <a class="navbar-brand" href="#">{{ routeName }}</a>
       </div>
       <button
         class="navbar-toggler"
@@ -45,14 +45,14 @@
             >
               <!-- <input type="text" class="form-control" placeholder="Search...">
               <div class="input-group-addon"><i class="tim-icons icon-zoom-split"></i></div> -->
-              <button
+              <!-- <button
                 class="btn btn-link"
                 id="search-button"
                 data-toggle="modal"
                 data-target="#searchModal"
               >
                 <i class="tim-icons icon-zoom-split"></i>
-              </button>
+              </button> -->
               <!-- You can choose types of search input -->
             </div>
             <modal
@@ -71,7 +71,7 @@
                 placeholder="SEARCH"
               />
             </modal>
-            <base-dropdown
+            <!-- <base-dropdown
               tag="li"
               :menu-on-right="!$rtl.isRTL"
               title-tag="a"
@@ -111,7 +111,7 @@
               <li class="nav-link">
                 <a href="#" class="nav-item dropdown-item">Another one</a>
               </li>
-            </base-dropdown>
+            </base-dropdown> -->
             <base-dropdown
               tag="li"
               :menu-on-right="!$rtl.isRTL"
@@ -132,13 +132,13 @@
                 <b class="caret d-none d-lg-block d-xl-block"></b>
                 <p class="d-lg-none">Log out</p>
               </a>
-              <li class="nav-link">
+              <!-- <li class="nav-link">
                 <a href="#" class="nav-item dropdown-item">Profile</a>
               </li>
               <li class="nav-link">
                 <a href="#" class="nav-item dropdown-item">Settings</a>
-              </li>
-              <div class="dropdown-divider"></div>
+              </li> -->
+              <!-- <div class="dropdown-divider"></div> -->
               <li class="nav-link">
                 <a href="#" class="nav-item dropdown-item" @click="logout">Log out</a>
               </li>

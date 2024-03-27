@@ -131,13 +131,13 @@
               :class="{ 'float-left': isRTL }"
             >
               <i slot="title" class="tim-icons icon-settings-gear-63"></i>
-              <a class="dropdown-item" href="#pablo">{{
+              <a class="dropdown-item" href="#">{{
                 $t("dashboard.dropdown.action")
               }}</a>
-              <a class="dropdown-item" href="#pablo">{{
+              <a class="dropdown-item" href="#">{{
                 $t("dashboard.dropdown.anotherAction")
               }}</a>
-              <a class="dropdown-item" href="#pablo">{{
+              <a class="dropdown-item" href="#">{{
                 $t("dashboard.dropdown.somethingElse")
               }}</a>
             </base-dropdown>

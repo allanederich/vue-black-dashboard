@@ -15,7 +15,7 @@
             <span class="navbar-toggler-bar bar3"></span>
           </button>
         </div>
-        <a class="navbar-brand" href="#pablo">{{ routeName }}</a>
+        <a class="navbar-brand" href="#">{{ routeName }}</a>
       </div>
       <button
         class="navbar-toggler"
