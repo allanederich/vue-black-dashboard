@@ -257,6 +257,7 @@
         .vsa-item__trigger:hover {
             box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4);
             -webkit-transform: translateY(-1px);
+            transform: translateY(-1px);
         }
         .vsa-item__trigger {
             width: 100%;
@@ -298,6 +299,18 @@
             <h5 slot="header" class="title">Dados do Produto</h5>
 
             <form v-on:submit.prevent="regenerateAds">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="control-label">Status do Anúncio*</label>
+                                <select v-model="model.status" class="form-control" required>
+                                    <option v-for="status in statusAds" v-bind:value="status" :key="status.id">
+                                        {{ status.name }}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-sm-12 col-md-3">
                             <div class="form-group">
@@ -442,16 +455,6 @@
                                 required
                             >
                             </base-input>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label class="control-label">Status do Anúncio*</label>
-                                <select v-model="model.status" class="form-control" required>
-                                    <option v-for="status in statusAds" v-bind:value="status" :key="status.id">
-                                        {{ status.name }}
-                                    </option>
-                                </select>
-                            </div>
                         </div>
                     </div>
                     <div class="row">

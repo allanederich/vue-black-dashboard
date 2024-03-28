@@ -1,6 +1,15 @@
 <template>
-  <div>
-    <div class="row">
+    <div>
+        <!-- <card> -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="alert alert-primary" role="alert">
+                        Seja bem vindo(a)!
+                    </div>
+                </div>
+            </div>
+        <!-- </card> -->
+    <!-- <div class="row">
       <div class="col-12">
         <card type="chart">
           <template slot="header">
@@ -157,8 +166,8 @@
           </div>
         </card>
       </div>
+    </div> -->
     </div>
-  </div>
 </template>
 <script>
 import LineChart from "@/components/Charts/LineChart";

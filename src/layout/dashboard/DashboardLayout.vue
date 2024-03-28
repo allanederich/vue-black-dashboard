@@ -47,6 +47,11 @@
           :name="$t('sidebar.adsGenerator')"
           icon="tim-icons icon-components"
         />
+        <sidebar-link
+          to="/testing-flow-list"
+          :name="$t('sidebar.testingFlow')"
+          icon="tim-icons icon-trophy"
+        />
       </template>
     </side-bar>
     <div class="main-panel" v-if="!layout">

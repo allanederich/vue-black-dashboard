@@ -113,7 +113,8 @@
     "typography": "Typography",
     "rtlSupport": "RTL Support",
     "join": "Join Page",
-    "adsGenerator": "Gerador de Anúncios"
+    "adsGenerator": "Gerador de Anúncios",
+    "testingFlow": "Esteira de Testes"
   },
   "join": {
     "google_join": "Entrar com Google",
@@ -124,6 +125,11 @@
     "regenerated_ads_success": "Anúncio regerado com sucesso!",
     "generated_ads_error": "Houve um erro ao gerar o anúncio, tente novamente.",
     "copy_to_clipboard_success": "Título copiado!"
+  },
+  "testing_flow": {
+    "add_success": "Produto adicionado com sucesso!",
+    "edit_success": "Produto alterado com sucesso!",
+    "add_error": "Houve um erro ao adicionar o produto, tente novamente."
   },
   "general": {
     "expired_session": "Sua sessão expirou. Por favor, logue novamente."

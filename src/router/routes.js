@@ -21,6 +21,9 @@ const AuthJoin = () => import("@/pages/Auth/Join.vue");
 const AdsGeneratorList = () => import("@/pages/AdsGenerator/AdsGeneratorList.vue");
 const AdsGeneratorNew = () => import("@/pages/AdsGenerator/AdsGeneratorNew.vue");
 const AdsGeneratorEdit = () => import("@/pages/AdsGenerator/AdsGeneratorEdit.vue");
+const TestingFlowList = () => import("@/pages/TestingFlow/TestingFlowList.vue");
+const TestingFlowNew = () => import("@/pages/TestingFlow/TestingFlowNew.vue");
+const TestingFlowEdit = () => import("@/pages/TestingFlow/TestingFlowEdit.vue");
 
 const routes = [
   {
@@ -86,6 +89,21 @@ const routes = [
         name: "Gerador de Anúncios",
         component: AdsGeneratorEdit,
       },
+      {
+        path: "testing-flow-list",
+        name: "Esteira de Testes",
+        component: TestingFlowList,
+      },
+      {
+        path: "testing-flow-new",
+        name: "Esteira de Testes",
+        component: TestingFlowNew,
+      },
+      {
+        path: "testing-flow-edit/:id",
+        name: "Esteira de Testes",
+        component: TestingFlowEdit,
+      }
     ],
   },
   { path: "*", component: NotFound },

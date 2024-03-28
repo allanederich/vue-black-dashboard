@@ -83,7 +83,6 @@ export default {
       value.platform_name = object.platform.name;
       value.status_id = object.status.id;
       value.status_name = object.status.name;
-      value.creation_date = moment().format('YYYY-MM-DD HH:mm:ss');
       
       value.product_bottle_biggest_anchoring_price = parseFloat(object.product_bottle_biggest_anchoring_price.replace('$', ''));
       value.product_bottle_biggest_price = parseFloat(object.product_bottle_biggest_price.replace('$', ''));
