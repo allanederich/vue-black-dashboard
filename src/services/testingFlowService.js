@@ -11,7 +11,7 @@ export default {
   async getAll() {
     try {
       const uid = store.getters.getUser.uid;
-      const q = query(this.refTestingFlowAds(), where("user_id", "==", uid), orderBy('campaign_name', 'asc'));
+      const q = query(this.refTestingFlowAds(), where("user_id", "==", uid), orderBy('campaign_name', 'desc'));
       const snapshot = await getDocs(q);
       if (snapshot.empty) {
         return [];
@@ -39,6 +39,9 @@ export default {
         value.product_comission = parseFloat(object.product_comission.replace('$', ''));
         
         value.user_id = store.getters.getUser.uid;
+
+        // campos opcionais
+        value.campaign_name = value.campaign_name || '';
 
         return await addDoc(this.refTestingFlowAds(), value);
     } catch (error) {
@@ -76,6 +79,9 @@ export default {
       value.status_name = object.status.name;
       
       value.product_comission = parseFloat(object.product_comission.replace('$', ''));
+
+      // campos opcionais
+      value.campaign_name = value.campaign_name || '';
       
       const docRef = doc(db, "google_ads_testing_flow", object.id);
       await updateDoc(docRef, value);

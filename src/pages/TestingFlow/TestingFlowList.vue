@@ -74,7 +74,7 @@
                         <td>{{ $formatDate(item.creation_date) }}</td>
                         <td>{{ item.platform_name }}</td>
                         <td>{{ item.product_name }}</td>
-                        <td>{{ item.campaign_name ?? "Sem Campanha" }}</td>
+                        <td>{{ (item.campaign_name == null || item.campaign_name.length > 0) ? item.campaign_name : "SEM CAMPANHA" }}</td>
                         <td>{{ item.product_comission | toCurrency }}</td>
                         <td>{{ item.status_name }}</td>
                         <td class="text-center">
