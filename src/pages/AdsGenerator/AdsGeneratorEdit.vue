@@ -336,7 +336,7 @@
                                 label="Comissão*"
                                 placeholder="Informe o valor da comissão"
                                 v-maska
-                                data-maska="['$###.##', '$##.##']"
+                                data-maska="['$#####']"
                                 v-model="model.product_comission"
                                 required
                             >

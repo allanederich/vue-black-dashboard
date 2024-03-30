@@ -123,7 +123,7 @@
                         label="Comissão*"
                         placeholder="Informe o valor da comissão"
                         v-maska
-                        data-maska="['$###.##', '$##.##']"
+                        data-maska="['$#####']"
                         v-model="model.product_comission"
                         required
                     >
@@ -155,7 +155,7 @@
                     <label class="control-label">
                         Observações
                     </label>
-                    <textarea class="form-control" rows="5" v-model="model.obs" placeholder="Faça suas anotações aqui" style="padding: 10px 18px 10px 18px; border: 1px solid #cad1d7; border-color: #2b3553; border-radius: 0.4285rem;"></textarea>
+                    <textarea class="form-control" rows="10" v-model="model.obs" placeholder="Faça suas anotações aqui" style="padding: 10px 18px 10px 18px; border: 1px solid #cad1d7; border-color: #2b3553; border-radius: 0.4285rem; max-height: unset;"></textarea>
                 </div>
             </div>
             <div class="row">

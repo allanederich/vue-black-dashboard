@@ -13,7 +13,19 @@ export default {
             }
             var formatter = new Intl.NumberFormat('en-US', {
                 style: 'currency',
-                currency: 'USD'
+                currency: 'USD',
+                maximumFractionDigits: 0
+            });
+            return formatter.format(value);
+        });
+        Vue.filter('toCurrencyWithFractions', function (value) {
+            if (typeof value !== "number") {
+                return value;
+            }
+            var formatter = new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
+                maximumFractionDigits: 2
             });
             return formatter.format(value);
         });
